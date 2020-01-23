@@ -1,75 +1,121 @@
 <template>
   <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a href="https://vuetifyjs.com" target="_blank"> documentation </a>.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a href="https://chat.vuetifyjs.com/" target="_blank" title="chat">
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a href="https://nuxtjs.org/" target="_blank">
-            Nuxt Documentation
-          </a>
+    <v-flex xs12 sm8 md-12>
+      <v-card class="my-10">
+        <p class="display-3 text--primary">
+          Calculator Demo
+        </p>
+        <div class="body-1 text--primary">
+          Choose an operator, type two numbers in and press calculate
+        </div>
+        <v-form ref="form">
           <br />
-          <a href="https://github.com/nuxt/nuxt.js" target="_blank">
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire">
-            Continue
-          </v-btn>
-        </v-card-actions>
+          <v-btn
+            v-for="operator in operators"
+            :class="{
+              highlight: operator == selected
+            }"
+            @click="selected = operator"
+            :key="operator.id"
+            :depressed="selected == operator"
+            class="mx-1"
+            tile
+            x-large
+          >
+            {{ operator }}</v-btn
+          >
+          <div class="my-8">
+            <v-text-field
+              v-model="num1"
+              label="Input 1"
+              type="number"
+              hide-details
+            ></v-text-field>
+            <v-text-field
+              v-model="num2"
+              label="Input 2"
+              type="number"
+              hide-details
+            ></v-text-field>
+          </div>
+          <v-btn @click="calculate" x-large>Calculate</v-btn>
+        </v-form>
+        <br /><br />
+        <hr />
+        <br /><br />
+        <transition name="fade" mode="out-in">
+          <div v-if="calculated">
+            <div class="display-1">Result:</div>
+            <v-card flat>
+              <div class="display-1 pa-5 my-3 result">
+                {{ result }}
+              </div>
+            </v-card>
+          </div>
+        </transition>
       </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
+  data() {
+    return {
+      operators: ['Addition', 'Subtraction', 'Exponentiation'],
+      num1: undefined,
+      num2: undefined,
+      selected: undefined,
+      result: undefined,
+      calculated: false
+    }
+  },
+  methods: {
+    calculate() {
+      if (this.selected === undefined) {
+        return alert('Please select an operator')
+      } else if (this.num1 === undefined || this.num2 === undefined) {
+        return alert('Please select a number')
+      }
+      if (this.selected === 'Addition') {
+        this.result = parseFloat(this.num1) + parseFloat(this.num2)
+      } else if (this.selected === 'Subtraction') {
+        this.result = parseFloat(this.num1) - parseFloat(this.num2)
+      } else {
+        this.result = parseFloat(this.num1) ** parseFloat(this.num2)
+      }
+      this.calculated = true
+    }
   }
 }
 </script>
+
+<style scoped>
+.highlight {
+  background-color: rgb(218, 150, 86) !important;
+  color: white;
+}
+
+.v-text-field {
+  height: 4rem;
+  font-size: 1.5rem;
+}
+
+.result {
+  background-color: rgb(202, 202, 202);
+  border: solid black 1px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.my-10 {
+  padding: 50px 50px;
+}
+</style>
