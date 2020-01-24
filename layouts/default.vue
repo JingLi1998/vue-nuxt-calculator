@@ -1,5 +1,6 @@
 <template>
   <v-app dark>
+    <!-- navigation bar -->
     <v-app-bar
       :clipped-left="clipped"
       color="indigo darken-2"
@@ -7,10 +8,9 @@
       elevation="0"
       app
     >
-      <v-toolbar-title class="ml-5"
-        ><i class="fas fa-calculator"></i> {{ title }}</v-toolbar-title
-      >
-      <!-- <v-spacer></v-spacer> -->
+      <v-toolbar-title class="ml-5">
+        <i class="fas fa-calculator"></i> {{ title }}
+      </v-toolbar-title>
       <v-toolbar-items class="ml-5">
         <v-btn
           v-for="item in items"
@@ -18,10 +18,12 @@
           :to="item.to"
           class="white--text"
           text
-          >{{ item.title }}</v-btn
         >
+          {{ item.title }}
+        </v-btn>
       </v-toolbar-items>
     </v-app-bar>
+    <!-- main content displayed here -->
     <v-content>
       <v-container>
         <nuxt />

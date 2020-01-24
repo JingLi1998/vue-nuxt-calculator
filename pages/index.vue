@@ -2,6 +2,7 @@
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md-12>
       <v-card class="my-10">
+        <!-- title and description -->
         <p class="display-3 text--primary">
           Calculator Demo
         </p>
@@ -10,6 +11,7 @@
         </div>
         <v-form ref="form">
           <br />
+          <!-- create operator buttons -->
           <v-btn
             v-for="operator in operators"
             :class="{
@@ -22,8 +24,9 @@
             tile
             x-large
           >
-            {{ operator }}</v-btn
-          >
+            {{ operator }}
+          </v-btn>
+          <!-- create number inputs -->
           <div class="my-8">
             <v-text-field
               v-model="num1"
@@ -38,11 +41,13 @@
               hide-details
             ></v-text-field>
           </div>
+          <!-- calulate button -->
           <v-btn @click="calculate" x-large>Calculate</v-btn>
         </v-form>
         <br /><br />
         <hr />
         <br /><br />
+        <!-- result section -->
         <transition name="fade" mode="out-in">
           <div v-if="calculated">
             <div class="display-1">Result:</div>
@@ -72,11 +77,13 @@ export default {
   },
   methods: {
     calculate() {
+      // popup alert if user has not selected an operator or number
       if (this.selected === undefined) {
         return alert('Please select an operator')
       } else if (this.num1 === undefined || this.num2 === undefined) {
         return alert('Please select a number')
       }
+      // perform calculation based on selected operator
       if (this.selected === 'Addition') {
         this.result = parseFloat(this.num1) + parseFloat(this.num2)
       } else if (this.selected === 'Subtraction') {
@@ -84,6 +91,7 @@ export default {
       } else {
         this.result = parseFloat(this.num1) ** parseFloat(this.num2)
       }
+      // set to true to reveal result
       this.calculated = true
     }
   }
