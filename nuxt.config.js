@@ -1,14 +1,15 @@
 import colors from 'vuetify/es5/util/colors'
-// const routerBase =
-//   process.env.DEPLOY_ENV === 'GH_PAGES'
-//     ? {
-//         router: {
-//           base: '/CalculatorDemo/'
-//         }
-//       }
-//     : {}
+const routerBase =
+  process.env.DEPLOY_ENV === 'GH_PAGES'
+    ? {
+        router: {
+          base: '/CalculatorDemo/'
+        }
+      }
+    : {}
+
 export default {
-  mode: 'spa',
+  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -84,9 +85,6 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
-  }
-  // router: {
-  //   base: '/CalculatorDemo/'
-  // },
-  // ...routerBase
+  },
+  ...routerBase
 }
